@@ -1,19 +1,26 @@
 import threading
 import socket
+import database
+from message import Message
 
 host = "127.0.0.1" # localHost address
-port = 5555 # higher number
+port = 55555 # higher number
 
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server.bind((host, port))
 server.listen()
+
+database.createDB()
 
 clients = []
 nicknames = []
 
 def broadcast(message):
     for client in clients:
-        client.send(message)
+        try:
+            client.send(message)
+        except:
+            print("***Error occured***")
 
 def handle(client):
     while True:
@@ -39,8 +46,10 @@ def receive():
         nickname = client.recv(1024).decode('ascii')
         print(f'Nickname of the client is {nickname}!')
         
+
+        
         nicknames.append(nickname)
-        clients.append(clients)
+        clients.append(client)
 
         broadcast(f"{nickname} joined the chat!".encode('ascii'))
         client.send('Connected to the server!'.encode('ascii'))

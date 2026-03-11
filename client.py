@@ -2,10 +2,16 @@ import socket
 import threading
 
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+client.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
 nickname = input("Enter your nickname: ")
 
-client.connect(('127.0.0.1', 5555))
+try:
+    client.connect(('127.0.0.1', 55555))
+    
+except:
+    print("Please check server address and port")
+    print("Goodbye...")
 
 def receive():
     while True:
