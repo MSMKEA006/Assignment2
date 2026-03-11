@@ -2,6 +2,7 @@ import threading
 import socket
 import database
 from message import Message
+import datetime
 
 host = "127.0.0.1" # localHost address
 port = 55555 # higher number
@@ -14,6 +15,7 @@ database.createDB()
 
 clients = []
 nicknames = []
+chats = []
 
 def broadcast(message):
     for client in clients:
@@ -26,7 +28,10 @@ def handle(client):
     while True:
         try:
             message = client.recv(1024)
-            broadcast(message)
+            if ":" in message:
+                sender, text = message.split(":", 1) # message send format is in "nickname: message"
+                database.insert_message(text, sender, "all", datetime.datetime.now(), 0)
+            # broadcast(message)
         except:
             index = clients.index(client)
             clients.remove(client)
@@ -46,7 +51,12 @@ def receive():
         nickname = client.recv(1024).decode('ascii')
         print(f'Nickname of the client is {nickname}!')
         
-        #client.send(f"Recipient?".encode('ascii'))
+        client.send(f"Chat ID or RecipientID?".encode('ascii'))
+        chatID = client.recv(1024).decode('ascii')
+
+        if chatID not in chats:
+            chats[chatID] = []
+            chats[chatID].append(client)
 
         nicknames.append(nickname)
         clients.append(client)
