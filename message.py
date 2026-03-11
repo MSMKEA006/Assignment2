@@ -4,7 +4,7 @@ class Message:
         self.text = text
         self.sender = sender
         self.recipient = recipient
-        self.time = datetime.now()
+        self.time = datetime.datetime.now()
         self.readCount = 0
 
 

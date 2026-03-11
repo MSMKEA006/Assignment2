@@ -41,13 +41,13 @@ def getMessages(recipient):
     cursor = conn.cursor()
 
     cursor.execute("SELECT * FROM messages WHERE recipient = ?", (recipient,))
-    messages = cursor.fetchAll()
+    messages = cursor.fetchall()
 
     cursor.execute("""
             UPDATE messages 
-            SET read_count = read_count + 1 
+            SET readCount = readCount + 1 
             WHERE recipient = ?
-        """, (recipient))
+        """, (recipient,))
 
     conn.commit()
     conn.close()
