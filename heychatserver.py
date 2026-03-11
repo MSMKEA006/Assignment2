@@ -34,7 +34,7 @@ def handle(client):
             nickname = nicknames[index]
             nicknames.remove(nickname)
 
-            broadcast(f'{nickname} left the chat!'.encode('ascii'))
+            # broadcast(f'{nickname} is offline!'.encode('ascii'))
             break
 
 def receive():
@@ -46,8 +46,8 @@ def receive():
         nickname = client.recv(1024).decode('ascii')
         print(f'Nickname of the client is {nickname}!')
         
+        #client.send(f"Recipient?".encode('ascii'))
 
-        
         nicknames.append(nickname)
         clients.append(client)
 

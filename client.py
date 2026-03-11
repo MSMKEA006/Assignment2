@@ -5,6 +5,7 @@ client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
 nickname = input("Enter your nickname: ")
+chatID = input("Enter your chatID: ")
 
 try:
     client.connect(('127.0.0.1', 55555))
